@@ -1,0 +1,13 @@
+{
+  "name": "trackingpoint",
+  "version": "1.0.0",
+  "scripts": {
+    "docker:start": "docker-compose -f build/docker-compoes.yml up -d",
+    "docker:stop": "docker-compose -f build/docker-compoes.yml down",
+    "docker:start:group": "docker-compose -f build/docker-compoes.yml -p tracking-point up -d",
+    "docker:stop:group": "docker-compose -f build/docker-compoes.yml -p tracking-point down"
+  },
+  "author": "modify",
+  "license": "ISC",
+  "description": ""
+}

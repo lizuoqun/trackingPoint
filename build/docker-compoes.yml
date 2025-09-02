@@ -1,0 +1,35 @@
+version: '3'
+services:
+  modify-kafka:
+    image: bitnami/kafka:3.9.0
+    container_name: modify-kafka
+    ports:
+      - "9092:9092"
+      - "9093:9093"
+    environment:
+      - KAFKA_CFG_NODE_ID=1
+      - KAFKA_CFG_PROCESS_ROLES=broker,controller
+      - KAFKA_CFG_CONTROLLER_QUORUM_VOTERS=1@modify-kafka:9093
+      - KAFKA_CFG_LISTENERS=PLAINTEXT://modify-kafka:9092,CONTROLLER://modify-kafka:9093
+      - KAFKA_CFG_ADVERTISED_LISTENERS=PLAINTEXT://localhost:9092
+      - KAFKA_CFG_LISTENER_SECURITY_PROTOCOL_MAP=CONTROLLER:PLAINTEXT,PLAINTEXT:PLAINTEXT
+      - KAFKA_CFG_CONTROLLER_LISTENER_NAMES=CONTROLLER
+      - KAFKA_CFG_INTER_BROKER_LISTENER_NAME=PLAINTEXT
+      - ALLOW_PLAINTEXT_LISTENER=true
+
+
+  modify-clickhouse:
+    image: bitnami/clickhouse:25.3.1
+    container_name: modify-clickhouse
+    ports:
+      - "8123:8123"
+      - "9000:9000"
+    environment:
+      - CLICKHOUSE_DB=default
+      - CLICKHOUSE_USER=default
+      - CLICKHOUSE_PASSWORD=default
+
+networks:
+  default:
+    name: modify-network
+    driver: bridge
